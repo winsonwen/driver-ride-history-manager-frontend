@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/service/http.service';
 import { StorageService } from 'src/app/service/storage.service';
 import { managerToken } from 'src/environments/environment';
@@ -25,7 +26,7 @@ export class LoginComponent implements OnInit {
             window.location.href = '/driver-ride-history'
         }
       }).catch(error => {
-        alert(error.response.data)
+        this.message.create('error', `${error.response.data}`);
       })
 
     } else {
@@ -38,7 +39,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  constructor(private fb: UntypedFormBuilder, private http: HttpService, private storage: StorageService) { }
+  constructor(private fb: UntypedFormBuilder, private http: HttpService, private storage: StorageService, private message: NzMessageService) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({

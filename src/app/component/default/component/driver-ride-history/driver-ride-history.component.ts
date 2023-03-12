@@ -23,7 +23,7 @@ export class DriverRideHistoryComponent implements OnInit {
       this.driverRideHistories = res.data
       console.log(this.driverRideHistories)
     }).catch(error => {
-      alert(error.response.data)
+      this.message.create('error', `${error.response.data}`);
     })
   }
 
@@ -36,7 +36,7 @@ export class DriverRideHistoryComponent implements OnInit {
       this.resetForm(e)
       this.driverRideHistories.push(info);
     }).catch(error => {
-      this.message.create('error', `This is a message of ${error.response.data}`);
+      this.message.create('error', `${error.response.data}`);
     })
   }
 
@@ -56,14 +56,14 @@ export class DriverRideHistoryComponent implements OnInit {
     this.http.post(`/api/driver_ride_history/${this.userData.userId}/delete`, driverInfo).then(res => {
       this.driverRideHistories.splice(index, 1)
     }).catch(error => {
-      alert(error.response.data)
+      this.message.create('error', `${error.response.data}`);
     })
   }
 
   confirmValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
     if (!control.value) {
       return { error: true, required: true };
-    } else if (control.value < this.validateForm.controls['departingMiles'].value) {
+    } else if (control.value < this.validateForm.controls['departingMiles'].value || control.value < 0 ) {
       return { confirm: true, error: true };
     }
     return {};
@@ -73,7 +73,7 @@ export class DriverRideHistoryComponent implements OnInit {
     this.validateForm = this.fb.group({
       driverName: ['', [Validators.required, Validators.pattern("^[a-zA-Z]{1,30}$")]],
       rideDate: [null, [Validators.required]],
-      departingMiles: ['', [Validators.required]],
+      departingMiles: ['', [Validators.required, this.confirmValidator]],
       returningMiles: ['', [Validators.required, this.confirmValidator]],
       rideReason: ['', [Validators.required]]
     });

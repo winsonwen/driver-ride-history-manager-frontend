@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 
 import { NzFormTooltipIcon } from 'ng-zorro-antd/form';
+import { NzMessageService } from 'ng-zorro-antd/message';
 import { HttpService } from 'src/app/service/http.service';
 
 @Component({
@@ -28,7 +29,7 @@ export class RegistrationComponent implements OnInit {
         window.location.href = '/login'
       }).catch(error => {
         console.log(error)
-        alert(error.response.data)
+        this.message.create('error', `${error.response.data}`);
       })
     } else {
       Object.values(this.validateForm.controls).forEach(control => {
@@ -58,7 +59,7 @@ export class RegistrationComponent implements OnInit {
     e.preventDefault();
   }
 
-  constructor(private fb: UntypedFormBuilder, private http: HttpService) { }
+  constructor(private fb: UntypedFormBuilder, private http: HttpService, private message: NzMessageService) { }
 
   ngOnInit(): void {
     this.validateForm = this.fb.group({
