@@ -1,0 +1,23 @@
+[nz-form] {
+  max-width: 850px;
+}
+
+button {
+  margin-left: 8px;
+}
+
+[nz-radio] {
+  display: block;
+  height: 32px;
+  line-height: 32px;
+}
+
+.demo-infinite-container {
+  height: 300px;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+}
+
+nz-list {
+  padding: 24px;
+}

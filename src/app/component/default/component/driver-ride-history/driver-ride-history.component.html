@@ -1,0 +1,89 @@
+<div>
+    <cdk-virtual-scroll-viewport itemSize="73" class="demo-infinite-container">
+
+        <nz-list nzItemLayout="vertical">
+            <nz-list-item *ngFor="let driverRideHistory of driverRideHistories; let i =index">
+
+                <ul>
+                    <li> Driver Name: {{driverRideHistory.driverName}}</li>
+                    <li>
+                        Date of Ride: {{driverRideHistory.rideDate}}
+                    </li>
+                    <li>
+                        Departing Miles: {{driverRideHistory.departingMiles}}
+                    </li>
+                    <li>
+                        Departing Miles: {{driverRideHistory.returningMiles}}
+                    </li>
+                </ul>
+
+                Reason of Ride: {{ driverRideHistory.rideReason }}
+                <nz-list-item-extra>
+                </nz-list-item-extra>
+                <button nz-button (click)="deleteHistory($event,{driverName:driverRideHistory.driverName,rideDate:driverRideHistory.rideDate},i)" nzType="primary">Primary Button</button>
+
+            </nz-list-item>
+        </nz-list>
+    </cdk-virtual-scroll-viewport>
+</div>
+
+
+
+<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event)">
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Driver Name</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="driverNameErrorTpl">
+            <input nz-input formControlName="driverName" placeholder="" />
+            <ng-template #driverNameErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('pattern')">Please input valid driver name!</ng-container>
+                <ng-container *ngIf="control.hasError('required')">Please input driver name!</ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSm]="8" [nzXs]="24" nzRequired>Ride Date</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24" >
+            <nz-date-picker formControlName="rideDate" ></nz-date-picker>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Departing Miles</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+            [nzErrorTip]="departingMilesErrorTpl">
+            <nz-input-number [nzStep]="1" formControlName="departingMiles"></nz-input-number>
+            <ng-template #departingMilesErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Please input your departing miles!</ng-container>
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Returning Miles</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
+            [nzErrorTip]="returningMilesErrorTpl">
+            <nz-input-number [nzStep]="4" formControlName="returningMiles"></nz-input-number>
+            <ng-template #returningMilesErrorTpl let-control>
+                <ng-container *ngIf="control.hasError('required')">Please input your returning miles!</ng-container>
+                <ng-container *ngIf="control.hasError('confirm')">Please input valid returning miles!</ng-container>
+
+            </ng-template>
+        </nz-form-control>
+    </nz-form-item>
+
+    <nz-form-item>
+        <nz-form-label [nzSpan]="7" nzRequired>Ride Reason</nz-form-label>
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzErrorTip="Please write something here!">
+            <nz-textarea-count [nzMaxCharacterCount]="200">
+                <textarea formControlName="rideReason" nz-input rows="2" placeholder="write any thing"></textarea>
+            </nz-textarea-count>
+        </nz-form-control>
+    </nz-form-item>
+    <nz-form-item>
+        <nz-form-control [nzOffset]="7" [nzSpan]="12">
+            <button nz-button nzType="primary" [disabled]="!validateForm.valid">Submit</button>
+            <button nz-button (click)="resetForm($event)">Reset</button>
+        </nz-form-control>
+    </nz-form-item>
+</form>
