@@ -13,16 +13,29 @@
                         Departing Miles: {{driverRideHistory.departingMiles}}
                     </li>
                     <li>
-                        Departing Miles: {{driverRideHistory.returningMiles}}
+                        Returning Miles: {{driverRideHistory.returningMiles}}
                     </li>
                 </ul>
 
                 Reason of Ride: {{ driverRideHistory.rideReason }}
                 <nz-list-item-extra>
                 </nz-list-item-extra>
-                <button nz-button (click)="deleteHistory($event,{driverName:driverRideHistory.driverName,rideDate:driverRideHistory.rideDate},i)" nzType="primary">Delete</button>
+ 
 
+                <!-- <button nz-button (click)="deleteHistory($event,{driverName:driverRideHistory.driverName,rideDate:driverRideHistory.rideDate},i)" nzType="primary">Delete</button> -->
+                <button
+                nz-button
+                nz-popconfirm
+                nzPopconfirmTitle="Are you sure delete this record?"
+                (nzOnConfirm)="confirm({driverName:driverRideHistory.driverName,rideDate:driverRideHistory.rideDate},i)"
+                (nzOnCancel)="cancel()"
+                nzPopconfirmPlacement="right"
+                nz-button
+              >
+              delete
+              </button>
             </nz-list-item>
+
         </nz-list>
     </cdk-virtual-scroll-viewport>
 </div>
@@ -55,6 +68,8 @@
             <nz-input-number [nzStep]="1" formControlName="departingMiles"></nz-input-number>
             <ng-template #departingMilesErrorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">Please input your departing miles!</ng-container>
+                <ng-container *ngIf="control.hasError('confirm')">Please input valid departing miles!</ng-container>
+
             </ng-template>
         </nz-form-control>
     </nz-form-item>

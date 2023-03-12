@@ -27,6 +27,8 @@ import { NzListModule } from 'ng-zorro-antd/list';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzMessageModule } from 'ng-zorro-antd/message';
+import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+
 @NgModule({
   declarations: [
     MainNavigationComponent,
@@ -44,6 +46,7 @@ import { NzMessageModule } from 'ng-zorro-antd/message';
     NzButtonModule,
     NzSpaceModule,
     NzFormModule,
+    NzPopconfirmModule,
     ReactiveFormsModule,
     NzDatePickerModule,
     NzRadioModule,

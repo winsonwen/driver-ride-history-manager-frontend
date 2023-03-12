@@ -21,7 +21,7 @@ export class DriverRideHistoryComponent implements OnInit {
   ngOnInit(): void {
     this.http.get(`/api/driver_ride_history/${this.userData.userId}/all`).then((res: any) => {
       this.driverRideHistories = res.data
-      console.log(this.driverRideHistories)
+      this.sortDriverRideHistories(this.driverRideHistories)
     }).catch(error => {
       this.message.create('error', `${error.response.data}`);
     })
@@ -29,12 +29,16 @@ export class DriverRideHistoryComponent implements OnInit {
 
   validateForm: UntypedFormGroup;
 
+  sortDriverRideHistories(driverRideHistories: any): void {
+    this.driverRideHistories = driverRideHistories.sort((a:any, b:any) => { return Date.parse(b.rideDate.replace(/\-/g,'/')) - Date.parse(a.rideDate.replace(/\-/g,'/')) })
+  }
+
   submitForm(e: MouseEvent): void {
     e.preventDefault();
-    let info = (this.validateForm.value)
+    this.validateForm.value['rideDate'] = this.timestampToTime(this.validateForm.value['rideDate'])
     this.http.post(`/api/driver_ride_history/${this.userData.userId}/create`, this.validateForm.value).then(res => {
+      this.driverRideHistories.push(this.validateForm.value);
       this.resetForm(e)
-      this.driverRideHistories.push(info);
     }).catch(error => {
       this.message.create('error', `${error.response.data}`);
     })
@@ -51,8 +55,7 @@ export class DriverRideHistoryComponent implements OnInit {
     }
   }
 
-  deleteHistory(e: MouseEvent, driverInfo: any, index: number): void {
-    e.preventDefault();
+  deleteHistory(driverInfo: any, index: number): void {
     this.http.post(`/api/driver_ride_history/${this.userData.userId}/delete`, driverInfo).then(res => {
       this.driverRideHistories.splice(index, 1)
     }).catch(error => {
@@ -60,22 +63,54 @@ export class DriverRideHistoryComponent implements OnInit {
     })
   }
 
-  confirmValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
+  cancel(): void {
+  }
+
+
+
+  confirm( driverInfo: any, index: number): void {
+    this.deleteHistory(driverInfo,index)
+  }
+
+  confirmDepartingMilesValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
     if (!control.value) {
       return { error: true, required: true };
-    } else if (control.value < this.validateForm.controls['departingMiles'].value || control.value < 0 ) {
+    } else if ( (this.validateForm.controls['returningMiles'].value!='') &&  (this.validateForm.controls['returningMiles'].value < control.value || control.value < 0)) {
       return { confirm: true, error: true };
     }
     return {};
   };
 
+  confirmReturningMilesValidator = (control: UntypedFormControl): { [s: string]: boolean } => {
+    if (!control.value) {
+      return { error: true, required: true };
+    } else if (control.value < this.validateForm.controls['departingMiles'].value || control.value < 0) {
+      return { confirm: true, error: true };
+    }
+    return {};
+  };
+
+
+
+   timestampToTime(timestamp:Date):string {
+    var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+    let y = date.getFullYear();
+    let MM:any = date.getMonth() + 1;
+    MM = MM < 10 ? ('0' + MM) : MM;
+    let d:any = date.getDate();
+    d = d < 10 ? ('0' + d) : d;
+
+    return y + '-' + MM + '-' + d;
+}
+
   constructor(private fb: UntypedFormBuilder, private http: HttpService, private storage: StorageService, private message: NzMessageService) {
     this.validateForm = this.fb.group({
       driverName: ['', [Validators.required, Validators.pattern("^[a-zA-Z]{1,30}$")]],
       rideDate: [null, [Validators.required]],
-      departingMiles: ['', [Validators.required, this.confirmValidator]],
-      returningMiles: ['', [Validators.required, this.confirmValidator]],
+      departingMiles: ['', [Validators.required, this.confirmDepartingMilesValidator]],
+      returningMiles: ['', [Validators.required, this.confirmReturningMilesValidator]],
       rideReason: ['', [Validators.required]]
     });
   }
+
 }
