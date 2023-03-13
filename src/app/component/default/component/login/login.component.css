@@ -1,3 +1,19 @@
+.loginPage{
+  max-width: 300px;
+  margin:300px auto;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  height: 300px;
+  padding: 20px 20px;
+  margin-top: 25vh;
+  
+}
+.title{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
 .login-form {
     max-width: 300px;
   }

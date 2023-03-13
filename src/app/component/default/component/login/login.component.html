@@ -1,4 +1,6 @@
-<form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+<div class="loginPage">
+  <div class="title">login System</div>
+  <form nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
     <nz-form-item>
       <nz-form-control nzErrorTip="Please input your username!">
         <nz-input-group nzPrefixIcon="user">
@@ -18,3 +20,4 @@
   </form>
   Or
   <a href="/registration">register now!</a>
+</div>

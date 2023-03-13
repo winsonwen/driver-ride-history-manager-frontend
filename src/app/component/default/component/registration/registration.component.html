@@ -1,4 +1,6 @@
-<form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+<form class="registration-page" nz-form [formGroup]="validateForm" (ngSubmit)="submitForm()">
+  <div class="title">Registration</div>
+
   <nz-form-item>
     <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="username" >Username</nz-form-label>
     <nz-form-control [nzSm]="14" [nzXs]="24" nzErrorTip="The input is not valid Username!">
@@ -27,8 +29,8 @@
   <nz-form-item nz-row class="register-area">
     <nz-form-control [nzSpan]="14" [nzOffset]="6">
       <button nz-button nzType="primary">Register</button>   
+      Or
+<a href="/login">Login</a>
     </nz-form-control>
   </nz-form-item>
 </form>
-Or
-<a href="/login">Login</a>

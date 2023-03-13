@@ -1,6 +1,25 @@
 [nz-form] {
     max-width: 600px;
   }
+  
+  .registration-page{
+    max-width: 700px;
+    margin:300px auto;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    height: 300px;
+    padding: 20px 20px;
+    margin-top: 25vh;
+    
+  }
+
+
+  .title{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
 
   .phone-select {
     width: 70px;

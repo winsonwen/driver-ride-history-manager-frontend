@@ -28,6 +28,7 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 import { NzMessageModule } from 'ng-zorro-antd/message';
 import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
+import { NzTableModule } from 'ng-zorro-antd/table';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { NzPopconfirmModule } from 'ng-zorro-antd/popconfirm';
   imports: [
     CommonModule,
     DefaultRoutingModule,
+    NzTableModule,
     FormsModule,
     NzUploadModule,
     NzButtonModule,
