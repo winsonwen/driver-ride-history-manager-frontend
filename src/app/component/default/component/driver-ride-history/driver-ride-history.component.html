@@ -1,5 +1,6 @@
 <div>
     <cdk-virtual-scroll-viewport itemSize="73" class="demo-infinite-container">
+        <div class="title">Driver Ride Histories</div>
 
         <nz-table #sortTable [nzShowPagination]="false" [nzData]="driverRideHistories"  #editRowTable nzBordered nzTableLayout="fixed">
             <thead>
@@ -32,7 +33,7 @@
 
 
 <form nz-form [formGroup]="validateForm" (ngSubmit)="submitForm($event)" class="myForm">
-    <div class="title">Create New Record</div>
+    <div class="title">Create A New Driver Ride History Record</div>
     <nz-form-item>
         <nz-form-label [nzSpan]="7" nzRequired>Driver Name</nz-form-label>
         <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..." [nzErrorTip]="driverNameErrorTpl">
