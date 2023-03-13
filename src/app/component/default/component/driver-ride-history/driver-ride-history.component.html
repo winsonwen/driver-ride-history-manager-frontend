@@ -1,27 +1,26 @@
 <div>
     <cdk-virtual-scroll-viewport itemSize="73" class="demo-infinite-container">
 
-        <nz-table #editRowTable nzBordered nzTableLayout="fixed">
+        <nz-table #sortTable [nzShowPagination]="false" [nzData]="driverRideHistories"  #editRowTable nzBordered nzTableLayout="fixed">
             <thead>
                 <tr>
-                    <th nzWidth="20%">Driver Name</th>
-                    <th nzWidth="15%">Date of Ride</th>
-                    <th nzWidth="10%">Departing Miles</th>
-                    <th nzWidth="10%">Returning Miles</th>
+                    <th *ngFor="let column of listOfColumn" [nzSortFn]="column.compare" [nzSortPriority]="column.priority" nzWidth="20%"> {{ column.title }}</th>
                     <th nzWidth="20%">Reason of Ride</th>
 
-                    <th>Action</th>
+                    <th nzWidth="20%">Action</th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let driverRideHistory of driverRideHistories; let i =index">
+                <tr *ngFor="let driverRideHistory of sortTable.data; let i =index">
                     <td style="font-size: large; font-weight: 1000;"> {{driverRideHistory.driverName}}</td>
-                    <td>{{driverRideHistory.rideDate}}</td>
+                    <td>{{driverRideHistory.departingDate}}</td>
+                    <td>{{driverRideHistory.returningDate}}</td>
+
                     <td>{{driverRideHistory.departingMiles}}</td>
                     <td> {{driverRideHistory.returningMiles}}</td>
                     <td> {{ driverRideHistory.rideReason }}</td>
                     <td> <button nz-button nz-popconfirm nzPopconfirmTitle="Are you sure delete this record?"
-                            (nzOnConfirm)="confirm({driverName:driverRideHistory.driverName,rideDate:driverRideHistory.rideDate},i)"
+                            (nzOnConfirm)="confirm({driverName:driverRideHistory.driverName,departingDate:driverRideHistory.departingDate, returningDate:driverRideHistory.returningDate},i)"
                             (nzOnCancel)="cancel()" nzPopconfirmPlacement="right" nz-button>
                             delete
                         </button></td>
@@ -46,17 +45,17 @@
     </nz-form-item>
 
     <nz-form-item>
-        <nz-form-label [nzSpan]="7" nzRequired>Ride Date</nz-form-label>
-        <nz-form-control [nzSm]="12" [nzXs]="24">
-            <nz-date-picker formControlName="rideDate" style="width:50%"></nz-date-picker>
+        <nz-form-label [nzSpan]="7" nzRequired>Date of Ride</nz-form-label>
+        <nz-form-control [nzSm]="16" [nzXs]="24">
+            <nz-range-picker formControlName="rideDate" style="width:50%"></nz-range-picker>
         </nz-form-control>
     </nz-form-item>
 
     <nz-form-item>
         <nz-form-label [nzSpan]="7" nzRequired>Departing Miles</nz-form-label>
-        <nz-form-control [nzSpan]="12"  nzHasFeedback nzValidatingTip="Validating..."
+        <nz-form-control [nzSpan]="12" nzHasFeedback nzValidatingTip="Validating..."
             [nzErrorTip]="departingMilesErrorTpl">
-            <nz-input-number  style="width:50%" formControlName="departingMiles"></nz-input-number>
+            <nz-input-number style="width:50%" formControlName="departingMiles"></nz-input-number>
             <ng-template #departingMilesErrorTpl let-control>
                 <ng-container *ngIf="control.hasError('required')">Please input your departing miles!</ng-container>
                 <ng-container *ngIf="control.hasError('confirm')">Please input valid departing miles!</ng-container>

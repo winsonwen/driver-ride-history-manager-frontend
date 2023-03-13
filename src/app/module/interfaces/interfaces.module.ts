@@ -13,7 +13,8 @@ export class InterfacesModule { }
 
 export declare interface DriverRideHistory {
   driverName: string,
-  rideDate: Date,
+  departingDate: string,
+  returningDate: string,
   departingMiles: number,
   returningMiles: number,
   rideReason: string

@@ -1,4 +1,4 @@
     <div *ngIf="username">
-        <button (click)="logout()" routerLink="/login">Logout </button>
+        <button nz-button (click)="logout()" nzType="primary" routerLink="/login">Logout </button>
         {{username}}
     </div>
